@@ -101,15 +101,17 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
 
     sendRawTransaction(rawTxHex) {
         return __awaiter(this, void 0, void 0, function* () {
+
+            //console.log('Using WOC ')
             // 1 second per KB
             const size = Math.max(1, rawTxHex.length / 2 / 1024); //KB
             //const timeout = Math.max(10000, 1000 * size);
             const timeout = Math.max(100000, 10000 * size);
+           
             console.log('TxId send BE: ', scryptlib_1.hash256(scryptlib_1.toHex(rawTxHex)))
             console.log('TxId send LE: ', scryptlib_1.bsv.Transaction(rawTxHex).id)
             //console.log('Raw TX: ', (scryptlib_1.toHex(rawTxHex)))
 
-            
             try {
                 //'https://api.bitails.io/tx/broadcast';
                 //'https://test-api.bitails.io/tx/broadcast';
@@ -121,18 +123,42 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
                 const res = yield superagent_1.default.post(`https://test-api.bitails.io/tx/broadcast/multipart`)
                     .timeout({
                     response: timeout,
-                    deadline: 20*60000, // but allow 1 minute for the file to finish loading.
+                    deadline: 5*60000, // but allow 1 minute for the file to finish loading.
                 })
                     .set('Content-Type', 'application/json')
                     .send({ txhex: rawTxHex });
+
+                //console.log('Res Body: ', res.body)
+    
                 return res.body;
             }
             catch (error) {
                 if (error.response && error.response.text) {
+
+                    //console.log('Error response: ', error.response)
+                    //console.log('Error message: ', error.message)
+                    //console.log('Error response Text: ', error.response.text)
+
                     if (needIgnoreError(error.response.text)) {
                         return new scryptlib_1.bsv.Transaction(rawTxHex).id;
                     }
-                    throw new Error(`WhatsonchainProvider ERROR 1: ${friendlyBIP22RejectionMsg(error.response.text)}`);
+
+                    else if (error.response.text.includes('Unhandled Error')){
+
+                        if((scryptlib_1.toHex(rawTxHex)).length > 2000000)
+                        {
+                            console.log('\nFor Big Data TX Check if it can be found at:')      
+                            //console.log('WoC: https://test.whatsonchain.com/')      
+                            console.log('Bitails: https://test-mapi.bitails.io/swagger#/Merchant%20Api/MapiApiController_transactionStatus')
+                            console.log('Or Wait until the Confirmation of the Next Block\n')    
+                        }
+
+                        return new scryptlib_1.bsv.Transaction(rawTxHex).id;
+                    }
+                    else{
+                        throw new Error(`WhatsonchainProvider ERROR 1: ${friendlyBIP22RejectionMsg(error.response.text)}`);
+                    }
+                    
                 }
                 throw new Error(`WhatsonchainProvider ERROR 2: ${error.message}`);
             }
@@ -208,12 +234,16 @@ function needIgnoreError(inMsg) {
     }
     //No caso de uso da Bitails
     //else if (`${this.apiPrefixWhich}`.includes('api.bitails.io') && inMsg.includes('"statusCode":500,"timestamp":')){
-        /*
-    else if (inMsg.includes('"statusCode":500,"timestamp":')){  
-        console.log('Consultar Bitails para ver se deu certo: https://test-mapi.bitails.io/swagger#/Merchant%20Api/MapiApiController_transactionStatus ')
+        
+    //else if (inMsg.includes('"statusCode":500,"timestamp":')){
+      
+    /*
+    else if (inMsg.includes('Unhandled Error')){      
+        console.log('Check TX status at Bitails: https://test-mapi.bitails.io/swagger#/Merchant%20Api/MapiApiController_transactionStatus ')
         return true;
     }
     */
+    
     
     return false;
 }
