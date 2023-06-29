@@ -1,0 +1,5 @@
+Place the Following Files in these folders
+
+..\node_modules\bsv\index.d.ts
+
+..\node_modules\bsv\lib\transaction\transaction.js
