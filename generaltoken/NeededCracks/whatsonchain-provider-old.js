@@ -25,7 +25,6 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
     constructor(network) {
         super();
         this._network = network;
-        this._isConnected = false;
     }
     get apiPrefix() {
         // TODO: check all avaiable networks
@@ -51,50 +50,25 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
     }
 
 
-
-
     isConnected() {
-        return this._isConnected;
+        return true;
     }
     connect() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const res = yield superagent_1.default.get(`${this.apiPrefix}/woc`)
-                    .timeout(3000);
-                if (res.ok && res.text === "Whats On Chain") {
-                    this._isConnected = true;
-                    this.emit("connected" /* ProviderEvent.Connected */, true);
-                }
-                else {
-                    throw new Error(`connect failed: ${res.body.msg ? res.body.msg : res.text}`);
-                }
-            }
-            catch (error) {
-                this._isConnected = false;
-                this.emit("connected" /* ProviderEvent.Connected */, false);
-                throw error;
-            }
-            return Promise.resolve(this);
-        });
-    }
-    assertConnected() {
-        if (!this._isConnected) {
-            throw new Error(`Provider is not connected`);
-        }
+        this.emit(abstract_provider_1.ProviderEvent.Connected, true);
+        return Promise.resolve(this);
     }
     updateNetwork(network) {
         this._network = network;
-        this.emit("networkChange" /* ProviderEvent.NetworkChange */, network);
+        this.emit(abstract_provider_1.ProviderEvent.NetworkChange, network);
     }
     getNetwork() {
         return this._network;
     }
 
+    //Original
     /*
-
     sendRawTransaction(rawTxHex) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.assertConnected();
             // 1 second per KB
             const size = Math.max(1, rawTxHex.length / 2 / 1024); //KB
             const timeout = Math.max(10000, 1000 * size);
@@ -119,7 +93,6 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
             }
         });
     }
-
     */
 
     //////////////////////// 
@@ -194,7 +167,6 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
 
     listUnspent(address, options) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.assertConnected();
             const res = yield superagent_1.default.get(`${this.apiPrefix}/address/${address}/unspent`);
             let utxos = res.body.map(item => ({
                 txId: item.tx_hash,
@@ -209,7 +181,6 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
         });
     }
     getBalance(address) {
-        this.assertConnected();
         return this.listUnspent(address).then(utxos => {
             return {
                 confirmed: utxos.reduce((acc, utxo) => {
@@ -221,7 +192,6 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
         });
     }
     getTransaction(txHash) {
-        this.assertConnected();
         return superagent_1.default.get(`${this.apiPrefix}/tx/${txHash}/hex`).then(res => {
             if (res.ok) {
                 return new scryptlib_1.bsv.Transaction(res.text);
@@ -239,6 +209,7 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
     }
 }
 exports.WhatsonchainProvider = WhatsonchainProvider;
+//Original
 /*
 function needIgnoreError(inMsg) {
     if (inMsg.includes('Transaction already in the mempool')) {
@@ -276,7 +247,6 @@ function needIgnoreError(inMsg) {
     
     return false;
 }
-
 
 
 function friendlyBIP22RejectionMsg(inMsg) {
