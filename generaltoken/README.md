@@ -38,3 +38,7 @@ Place the Following Files in these folders
 	..\node_modules\bsv\lib\transaction\transaction.js
 	..\node_modules\bsv\lib\privatekey.js
 	..\node_modules\scrypt-ts\dist\bsv\wallets\test-wallet.js
+
+ After setting all files, compile it again:
+ 
+            npx scrypt-cli@latest compile
