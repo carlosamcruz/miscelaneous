@@ -2,6 +2,11 @@ To use this project make sure to follow the following steps:
 
 Setup the prject folder as shown in this video - https://youtu.be/ItJ8deOYfDs
 
+            npx scrypt-cli project --state gptoken
+            cd gptoken
+            npm install
+            npx scrypt-cli@latest compile
+
 Insert the contract file in the following folder
 
 ..\ProjectFolder\src\contracts\
