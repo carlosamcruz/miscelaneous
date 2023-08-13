@@ -21,7 +21,7 @@ The following Files must be inserted project folder:
 	interactGT05ReadData.ts
 	interactGT06MeltToken.ts
 
-Make sure to insert the files in the (NeededCracks)*** folder in the respective folder
+Make sure to insert the files in the (NeededCracks)*** folder in the respective folder:
 
 *** Use always the newest version of the folder: 08/12/2023 (NeededCrack-scrypt-cli@0.1.43)
 
