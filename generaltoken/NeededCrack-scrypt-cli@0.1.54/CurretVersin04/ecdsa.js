@@ -341,7 +341,39 @@ ECDSA.pbkeyFromECDSA = function (zIn, sIn, rIn) {
   var result;
 
   if(sigVer1 && sigVer2 && sigVer3 && sigVer4)
-    result = ['04' + QA1.x.toString('hex') + QA1.y.toString('hex'),'04' + QA3.x.toString('hex') + QA3.y.toString('hex')]
+  {
+    let qa1x = QA1.x.toString('hex')
+    let qa1y = QA1.y.toString('hex')
+
+    let qa3x = QA3.x.toString('hex')
+    let qa3y = QA3.y.toString('hex')
+
+    //console.log('pk1: ', '04' + QA1.x.toString('hex') + QA1.y.toString('hex'))
+    //console.log('pk2: ', '04' + QA2.x.toString('hex') + QA2.y.toString('hex'))
+    //console.log('pk3: ', '04' + QA3.x.toString('hex') + QA3.y.toString('hex'))
+    //console.log('pk4: ', '04' + QA4.x.toString('hex') + QA4.y.toString('hex'))
+
+    while(qa1x.length < 64)
+    {
+      qa1x = '0' + qa1x;
+    }
+    while(qa1y.length < 64)
+    {
+      qa1y = '0' + qa1y;
+    }
+
+    while(qa3x.length < 64)
+    {
+      qa3x = '0' + qa3x;
+    }
+    while(qa3y.length < 64)
+    {
+      qa3y = '0' + qa3y;
+    }
+   
+    //result = ['04' + QA1.x.toString('hex') + QA1.y.toString('hex'),'04' + QA3.x.toString('hex') + QA3.y.toString('hex')]
+    result = ['04' + qa1x + qa1y,'04' + qa3x + qa3y] 
+  }
   else
     result = ['Failed','Failed']
 
