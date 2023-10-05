@@ -100,6 +100,7 @@ class TaalProvider extends abstract_provider_1.Provider {
             const timeout = Math.max(100000, 10000 * size);
             try {
                 //const res = yield superagent_1.default.post(`https://test-api.bitails.io/tx/broadcast/multipart`)
+                //const res = yield superagent.post('https://api.taal.com/api/v1/broadcast')
                 const res = yield superagent.post('https://api.taal.com/api/v1/broadcast')
                     .timeout({
                     response: timeout,
@@ -119,9 +120,9 @@ class TaalProvider extends abstract_provider_1.Provider {
             }*/
             catch (error) {
                 if (((_a = error.response) === null || _a === void 0 ? void 0 : _a.type) === "application/json" && ((_b = error.response) === null || _b === void 0 ? void 0 : _b.body)) {
-                    throw new Error(`TaalProvider ERROR: ${JSON.stringify((_c = error.response) === null || _c === void 0 ? void 0 : _c.body)}`);
+                  //  throw new Error(`TaalProvider ERROR: ${JSON.stringify((_c = error.response) === null || _c === void 0 ? void 0 : _c.body)}`);
                 }
-                throw new Error(`TaalProvider ERROR: ${error.message}`);
+                //throw new Error(`TaalProvider ERROR: ${error.message}`);
             }
         });
     }

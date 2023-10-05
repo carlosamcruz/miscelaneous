@@ -47,7 +47,22 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
         // TODO: check all avaiable networks
         //const networkStr = this._network.name === scryptlib_1.bsv.Networks.mainnet.name ? 'main' : 'test';
         //return `https://api.whatsonchain.com/v1/bsv/${networkStr}`;
-        return `https://test-api.bitails.io/tx/broadcast/multipart`;
+
+        let result;
+
+        if(this._network.name === scryptlib_1.bsv.Networks.mainnet.name)
+        {
+            result = 'https://api.bitails.io/tx/broadcast/multipart'
+            //result = 'https://api.bitails.io/tx/broadcast/multi'
+        }
+        else
+        {
+            result = `https://test-api.bitails.io/tx/broadcast/multipart` 
+        }
+
+
+        //return `https://test-api.bitails.io/tx/broadcast/multipart`;
+        return result;
     }
 
     isConnected() {
@@ -102,6 +117,9 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
                 })
                     .set('Content-Type', 'application/json')
                     .send({ txhex: rawTxHex });
+
+                    console.log('Res Body: ', res.body)
+                    console.log('Res Body: ', res.body)
                 return res.body;
             }
             catch (error) {
@@ -134,6 +152,20 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
             console.log('TxId send LE: ', scryptlib_1.bsv.Transaction(rawTxHex).id)
             //console.log('Raw TX: ', (scryptlib_1.toHex(rawTxHex)))
 
+            let toPost;
+
+            if(this._network.name === scryptlib_1.bsv.Networks.mainnet.name)
+            {
+                toPost = 'https://api.bitails.io/tx/broadcast/multipart'
+                //toPost = 'https://api.bitails.io/tx/broadcast'
+                //toPost = 'https://api.bitails.io/tx/broadcast/multi'
+            }
+            else
+            {
+                toPost = `https://test-api.bitails.io/tx/broadcast/multipart` 
+            }
+    
+
             try {
                 //'https://api.bitails.io/tx/broadcast';
                 //'https://test-api.bitails.io/tx/broadcast';
@@ -142,17 +174,30 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
                 //`https://api.whatsonchain.com/v1/bsv/${networkStr}`;
                 //const res = yield superagent_1.default.post(`${this.apiPrefix}/tx/raw`)
                 //const res = yield superagent_1.default.post(`https://test-api.bitails.io/tx/broadcast`)
-                const res = yield superagent_1.default.post(`https://test-api.bitails.io/tx/broadcast/multipart`)
+                //const res = yield superagent_1.default.post(`https://test-api.bitails.io/tx/broadcast/multipart`)
+                
+                console.log('Before Broadcast: ')
+
+                const formData = new FormData();
+
+                formData.append('raw', new Blob([Buffer.from(rawTxHex, 'hex')]));
+                formData.append('filename', 'raw');
+    
+                const res = yield superagent_1.default.post(toPost)
                     .timeout({
                     response: timeout,
                     deadline: 5*60000, // but allow 1 minute for the file to finish loading.
                 })
-                    .set('Content-Type', 'application/json')
-                    .send({ txhex: rawTxHex });
+                    //.set('Content-Type', 'application/json')
+                    //.send({ txhex: rawTxHex });
+                    //.send({raws : rawTxHex});
+                    //.send({raw : rawTxHex});
+                    .send(formData)
 
-                //console.log('Res Body: ', res.body)
+                console.log('Res Body: ', res.body)
     
-                return res.body;
+                return res.body.txid;
+                
             }
             catch (error) {
                 if (error.response && error.response.text) {
@@ -162,10 +207,13 @@ class WhatsonchainProvider extends abstract_provider_1.Provider {
                     //console.log('Error response Text: ', error.response.text)
 
                     if (needIgnoreError(error.response.text)) {
+                        console.log("ignoring2")
                         return new scryptlib_1.bsv.Transaction(rawTxHex).id;
                     }
 
                     else if (error.response.text.includes('Unhandled Error')){
+
+                        console.log("ignoring2")
 
                         if((scryptlib_1.toHex(rawTxHex)).length > 2000000)
                         {
