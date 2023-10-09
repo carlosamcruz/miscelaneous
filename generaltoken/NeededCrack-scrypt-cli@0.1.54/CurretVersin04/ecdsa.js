@@ -296,6 +296,9 @@ ECDSA.pbkeyFromECDSA = function (zIn, sIn, rIn) {
   var srinv1 = rinv.mul(s1).umod(N)
   var srinv2 = rinv.mul(s2).umod(N)
 
+  var a = ((s1.invm(N)).mul(z)).umod(N);
+  var b = ((s1.invm(N)).mul(r)).umod(N);
+
   var zrinv = rinv.mul(z).umod(N)
 
   var QR1, QR2, QR3, QR4, zrinvG
@@ -372,7 +375,8 @@ ECDSA.pbkeyFromECDSA = function (zIn, sIn, rIn) {
     }
    
     //result = ['04' + QA1.x.toString('hex') + QA1.y.toString('hex'),'04' + QA3.x.toString('hex') + QA3.y.toString('hex')]
-    result = ['04' + qa1x + qa1y,'04' + qa3x + qa3y] 
+    //result = ['04' + qa1x + qa1y,'04' + qa3x + qa3y]
+    result = ['04' + qa1x + qa1y,'04' + qa3x + qa3y, a.toString('hex'), b.toString('hex')] 
   }
   else
     result = ['Failed','Failed']

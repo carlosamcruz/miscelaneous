@@ -14,7 +14,7 @@ Place the Following Files in these folders
 
 ..\node_modules\bsv\lib\transaction\sighash.js
 
-..\websvmenu\node_modules\bsv\lib\crypto\ecdsa.js
+..\node_modules\bsv\lib\crypto\ecdsa.js
 
 
 
