@@ -1,0 +1,3 @@
+Broacast.ts is to be placed inside src folder of the project;
+
+It is an alternative method to broadcast transactions throgh diffent API, avoiding some troubles and limitations of scrypt providers.
