@@ -24,11 +24,5 @@ Insert
 
 
 
-..\node_modules\scrypt-ts\dist\smart-contract\contract.js ****
-
-..\node_modules\scrypt-ts\dist\bsv\abstract-provider.js ****
-
-
-
 
 
