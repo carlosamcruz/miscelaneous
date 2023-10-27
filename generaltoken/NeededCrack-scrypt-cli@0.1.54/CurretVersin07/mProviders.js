@@ -1,7 +1,3 @@
-///////////////////////
-//Jesus is the Lord
-///////////////////////
-
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -40,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTransaction = exports.listUnspent = exports.broadcast = void 0;
+exports.getSpentOutput = exports.getTransaction = exports.listUnspent = exports.broadcast = void 0;
 //export let pvtkey: string = '';
 var scrypt_ts_1 = require("scrypt-ts");
 function broadcast(tx, homenetwork) {
@@ -436,3 +432,109 @@ function getTransaction(txid, homenetwork) {
     });
 }
 exports.getTransaction = getTransaction;
+//export async function getSpentOutput(txid: any, vout: number, homenetwork: any): Promise <string>
+function getSpentOutput(txid, vout, homenetwork) {
+    return __awaiter(this, void 0, void 0, function () {
+        var poolID, npools, position, stxo, urlAdress01, url, resp, bcFinish, cycle, res, e_4;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    poolID = 0;
+                    npools = 1;
+                    position = vout.toString();
+                    urlAdress01 = 'https://api.whatsonchain.com/v1/bsv/main/tx/' + txid + '/' + position + '/spent';
+                    //let urlAdress02: string = 'https://api.bitails.io/download/tx/' + txid;
+                    if (homenetwork === scrypt_ts_1.bsv.Networks.testnet) {
+                        urlAdress01 = 'https://api.whatsonchain.com/v1/bsv/test/tx/' + txid + '/' + position + '/spent';
+                        //urlAdress01 = 'https://api.whatsonchain.com/v1/bsv/test/tx/' + txid + '/hex';
+                        //urlAdress02 = 'https://test-api.bitails.io/download/tx/' + txid;
+                    }
+                    console.log('pool id', poolID);
+                    resp = '';
+                    bcFinish = false;
+                    cycle = 0;
+                    _a.label = 1;
+                case 1:
+                    if (!(!bcFinish && cycle < npools * 2)) return [3 /*break*/, 6];
+                    switch (poolID) {
+                        default:
+                            url = new URL(urlAdress01);
+                            //TXJson = `{"txhex": "${TxHexBsv}" }`; 
+                            break;
+                    }
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 4, , 5]);
+                    console.log('URL', url);
+                    /////////////////////////////////////////////////
+                    //JESUS is the LORD!!!
+                    /////////////////////////////////////////////////
+                    //Using WoC
+                    return [4 /*yield*/, fetch(url)
+                            .then(function (response) { return response.text(); })
+                            .then(function (data) {
+                            //postMessage(data);
+                            // Use the data from the response here
+                            resp = data;
+                        })
+                            .catch(function (error) {
+                            //console.error(error);
+                            //postMessage(0);
+                            //resp = '';
+                            resp = error;
+                        })];
+                case 3:
+                    /////////////////////////////////////////////////
+                    //JESUS is the LORD!!!
+                    /////////////////////////////////////////////////
+                    //Using WoC
+                    _a.sent();
+                    //postMessage(dataHEX);
+                    if (resp.length > 0) {
+                        console.log('Sucess: ', resp);
+                        bcFinish = true;
+                        if (resp.indexOf('txid') !== -1) {
+                            res = JSON.parse('[' + resp + ']');
+                            stxo = res.map(function (item) { return ({
+                                //utxos = res.body.map((item: any) => ({
+                                txId: item.txid,
+                                inputIndex: item.vin,
+                            }); });
+                        }
+                        else {
+                            stxo = [{
+                                    //utxos = res.body.map((item: any) => ({
+                                    txId: '',
+                                    inputIndex: -1,
+                                }];
+                        }
+                        console.log('STXO: ', stxo);
+                    }
+                    return [3 /*break*/, 5];
+                case 4:
+                    e_4 = _a.sent();
+                    console.error(e_4);
+                    return [3 /*break*/, 5];
+                case 5:
+                    cycle++;
+                    poolID++;
+                    poolID = poolID % npools;
+                    console.log('Pool id: ', poolID);
+                    return [3 /*break*/, 1];
+                case 6:
+                    if (bcFinish) {
+                        //return resp
+                        //return utxos
+                        return [2 /*return*/, stxo];
+                    }
+                    else {
+                        //return ''
+                        //return utxos
+                        return [2 /*return*/, stxo];
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.getSpentOutput = getSpentOutput;
