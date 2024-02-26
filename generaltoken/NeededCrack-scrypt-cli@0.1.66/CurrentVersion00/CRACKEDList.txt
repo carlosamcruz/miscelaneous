@@ -1,0 +1,34 @@
+ Place the Following Files in these folders
+
+..\node_modules\scrypt-ts\dist\providers\whatsonchain-provider.js
+
+..\node_modules\scrypt-ts\dist\providers\taal-provider.js
+
+..\node_modules\scrypt-ts\dist\bsv\wallets\test-wallet.js
+
+..\node_modules\bsv\index.d.ts
+
+..\node_modules\bsv\lib\privatekey.js
+
+..\node_modules\bsv\lib\transaction\transaction.js
+
+..\node_modules\bsv\lib\transaction\sighash.js
+
+..\node_modules\bsv\lib\crypto\ecdsa.js
+
+
+
+Insert
+
+..\node_modules\scrypt-ts\dist\providers\mProviders.js
+
+
+Tool to check
+
+https://www.diffchecker.com/
+
+npx scrypt-cli@latest version
+
+0.1.66
+
+NeededCrack-scrypt-cli@0.1.66
