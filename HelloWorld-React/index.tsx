@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { Helloworld02 } from './contracts/helloworld02';
-import artifact from '../artifacts/src/contracts/helloworld02.json';
-Helloworld02.loadArtifact(artifact);
+import { Helloworld } from './contracts/helloworld';
+import artifact from './contracts/artifacts/helloworld.json';
+Helloworld.loadArtifact(artifact);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
