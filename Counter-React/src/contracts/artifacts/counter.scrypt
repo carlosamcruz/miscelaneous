@@ -1,0 +1,42 @@
+
+contract Counter {
+  @state int count;
+  bytes __scrypt_ts_ctx_hashoutputs;
+  int __scrypt_ts_ctx_value;
+  constructor(int count) {
+    this.count = count;
+  }
+  public function incrementOnChain(SigHashPreimage __scrypt_ts_txPreimage) {
+    require(Tx.checkPreimageSigHashType(__scrypt_ts_txPreimage, SigHashType(b'c3')));
+    this.__scrypt_ts_ctx_hashoutputs = SigHash.hashOutputs(__scrypt_ts_txPreimage);
+    this.__scrypt_ts_ctx_value = SigHash.value(__scrypt_ts_txPreimage);
+    this.increment();
+    int amount = this.__scrypt_ts_ctx_value;
+    bytes output = this.buildStateOutput(amount);
+    require(this.__scrypt_ts_ctx_hashoutputs == hash256(output));
+  }
+  public function decrementOnChain(SigHashPreimage __scrypt_ts_txPreimage) {
+    require(Tx.checkPreimageSigHashType(__scrypt_ts_txPreimage, SigHashType(b'c3')));
+    this.__scrypt_ts_ctx_hashoutputs = SigHash.hashOutputs(__scrypt_ts_txPreimage);
+    this.__scrypt_ts_ctx_value = SigHash.value(__scrypt_ts_txPreimage);
+    this.decrement();
+    int amount = this.__scrypt_ts_ctx_value;
+    bytes output = this.buildStateOutput(amount);
+    require(this.__scrypt_ts_ctx_hashoutputs == hash256(output));
+  }
+  public function finish(SigHashPreimage __scrypt_ts_txPreimage) {
+    require(Tx.checkPreimageSigHashType(__scrypt_ts_txPreimage, SigHashType(b'41')));
+    this.__scrypt_ts_ctx_hashoutputs = SigHash.hashOutputs(__scrypt_ts_txPreimage);
+    this.__scrypt_ts_ctx_value = SigHash.value(__scrypt_ts_txPreimage);
+    require(this.count >= 3);
+  }
+  function increment() : bool {
+    this.count++;
+    return true;
+  }
+  function decrement() : bool {
+    this.count--;
+    return true;
+  }
+  function buildStateOutput(int amount) : bytes {  return Utils.buildOutput(this.getStateScript(), amount);}
+}

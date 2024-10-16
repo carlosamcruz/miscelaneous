@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Consolas&display=swap');
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  margin-top: 0px;
+}
+
+.App-header2 {
+  background-color: #1c3d7f;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  margin-top: 0px;
+}
+
+.App-header3 {
+  background-color: #282c34;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  margin-top: 0px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #282c34; /* Replace with your desired background color */
+  color: white;
+  font-family: 'Consolas', monospace;
+}
+
+.body2 {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  background-color: #282c34; /* Replace with your desired background color #7c395e */
+  color: white;
+}
+
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.navbar {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.navbar button {
+  margin: 0 10px;
+  color: white;
+  background-color: black;
+  border: none;
+  cursor: pointer;
+}
+
+/* src/App.css */
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  /* Add margin and padding settings if needed */
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-content {
+  display: block;
+  position: absolute;
+  /*background-color: #f9f9f9; */
+  background-color: rgb(0, 0, 0);
+  min-width: 180px;
+  z-index: 0;
+
+  /* Adjust margin and padding settings if needed */
+  margin: 0;
+  padding: 0;
+  
+}
+
+.dropdown-button {
+  display: block;
+  width: 95%;
+  padding: 10px;
+  text-align: left;
+  /*background-color: #f9f9f9;*/
+  background-color: rgb(86, 72, 163);
+  border: none;
+  cursor: pointer;
+  
+}
+
+.dropdown-content-right {
+  display: block;
+  position: absolute;
+  /*background-color: #f9f9f9; */
+  background-color: rgb(54, 31, 113);
+  min-width: 100px;
+  z-index: 1;
+
+  /* Adjust margin and padding settings if needed */
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-button-right {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: right;
+  /*background-color: #f9f9f9;*/
+  background-color: rgb(82, 73, 132);
+  color: #323a3c;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  /* Styles for screens up to 768px wide (e.g., mobile) */
+}
+
+@media (min-width: 769px) {
+  /* Styles for screens 769px wide and above (e.g., desktop) */
+}
+
+.label-container {
+  display: flex;
+  /*background-color: black;*/
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /*height: 8vh;  Set container height to fill the viewport */
+  padding-top: 20px;
+  /*padding: 0px;  Add some padding for spacing */
+  width: 90vw; /* Use viewport width units for responsiveness */
+}
+
+.responsive-label {
+  font-size: 1rem; /* Set the initial font size */
+  white-space: nowrap; /* Prevent label text from wrapping */
+  overflow: hidden;  /*Hide overflow if label text is too long */
+  text-overflow: ellipsis; /* Display ellipsis (...) for truncated text */
+  max-width: 80%; /* Adjust maximum width as needed */
+  /*text-align: center; /* Center the text */
+  /*white-space: normal; /* Allow text to wrap to the next line */
+}
+
+/* Apply responsive styling based on screen width */
+@media (max-width: 768px) {
+  .responsive-label {
+    font-size: 0.8rem;
+  }
+}
+
+.text-container {
+  width: 90vw; /* Use viewport width units for responsiveness */
+  border: 1px solid #ccc;
+  padding: 10px;
+  overflow: hidden; /* Hide overflowing content */
+}
+
+.long-text {
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Display ellipsis (...) for overflow */
+}
+
+/* Apply mobile-specific styling */
+@media (max-width: 768px) {
+  .long-text {
+    font-size: 14px; /* Adjust font size for mobile */
+  }
+}
+
+input[type="file"] {
+  display: none;
+}

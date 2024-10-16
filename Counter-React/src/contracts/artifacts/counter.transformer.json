@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "errors": [],
+  "scryptfile": "counter.scrypt",
+  "sourceMapFile": "counter.scrypt.map",
+  "ctxMethods": [
+    "incrementOnChain",
+    "decrementOnChain"
+  ]
+}
